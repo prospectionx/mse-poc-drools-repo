@@ -1,0 +1,28 @@
+{
+  "name": "root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "pull-drools": "cross-env NODE_ENV=development dotenv-flow -p config -- node ./scripts/sync-drools pull",
+    "push-drools": "cross-env NODE_ENV=development dotenv-flow -p config -- node ./scripts/sync-drools push",
+    "clean-drools": "cross-env NODE_ENV=development dotenv-flow -p config -- node ./scripts/sync-drools clean"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "dependencies": {
+    "@types/node": "16.11.43",
+    "esbuild": "0.14.48",
+    "esbuild-register": "3.3.3",
+    "isomorphic-git": "1.18.3",
+    "cpy": "9.0.1",
+    "del": "6.1.1",
+    "eol": "0.9.1"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3",
+    "dotenv-flow-cli": "1.0.0",
+    "eslint": "8.19.0",
+    "typescript": "4.7.4"
+  }
+}

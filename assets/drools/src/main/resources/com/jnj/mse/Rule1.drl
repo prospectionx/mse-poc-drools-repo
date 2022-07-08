@@ -1,0 +1,56 @@
+package com.jnj.mse;
+
+import com.jnj.mse.Rule1Config;
+import com.jnj.mse.Rule1Fact;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+
+rule MSE01
+when
+    config: Rule1Config(enabled == true)
+    fact: Rule1Fact()
+then
+    if (fact.getEngagement_frequency().equals("Maintain")) {
+        fact.getResult().setTarget_interactions(Long.valueOf(config.getMaintainTargetInteractions()));
+    } else if (fact.getEngagement_frequency().equals("Develop")) {
+        fact.getResult().setTarget_interactions(Long.valueOf(config.getDevelopTargetInteractions()));
+    } else if (fact.getEngagement_frequency().equals("Frequent")) {
+        fact.getResult().setTarget_interactions(Long.valueOf(config.getFrequentTargetInteractions()));
+    }
+
+    fact.getResult().setActual_interactions(
+        fact.getSubmitted_interactions().getAggregate().getCount() + fact.getPlanned_interactions().getAggregate().getCount()
+    );
+
+    fact.getResult().setEngagement_achievement(
+        BigDecimal
+            .valueOf(fact.getResult().getActual_interactions())
+            .divide(
+                BigDecimal.valueOf(fact.getResult().getTarget_interactions()), 2, RoundingMode.HALF_UP
+            )
+            .min(BigDecimal.ONE)
+    );
+
+    fact.getResult().setYear_elapsed_percent(
+        BigDecimal
+            .valueOf(
+                Math.max(
+                    LocalDate.parse(
+                        fact.getLast_interaction_date().getAggregate().getMax().getInteraction_date() != null
+                            ? fact.getLast_interaction_date().getAggregate().getMax().getInteraction_date()
+                            : config.getCurrentDate()
+                    ).getDayOfYear(),
+                    LocalDate.parse(config.getCurrentDate()).getDayOfYear()
+                )
+            )
+            .divide(BigDecimal.valueOf(365), 2, RoundingMode.HALF_UP)
+    );
+
+    if (fact.getResult().getYear_elapsed_percent().subtract(fact.getResult().getEngagement_achievement())
+            .compareTo(config.getEngagementAchievementThreshold()) > 0) {
+        fact.getResult().setSuggestion(
+            fact.getMsl().getName() + " should visit " + fact.getKey_individual().getName() + " to meet engagement frequency."
+        );
+    }
+end

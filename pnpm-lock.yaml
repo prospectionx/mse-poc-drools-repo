@@ -10,7 +10,7 @@ specifiers:
   esbuild: 0.14.49
   esbuild-register: 3.3.3
   eslint: 8.20.0
-  isomorphic-git: 1.18.3
+  isomorphic-git: 1.19.0
   typescript: 4.7.4
 
 dependencies:
@@ -20,7 +20,7 @@ dependencies:
   eol: 0.9.1
   esbuild: 0.14.49
   esbuild-register: 3.3.3_esbuild@0.14.49
-  isomorphic-git: 1.18.3
+  isomorphic-git: 1.19.0
 
 devDependencies:
   cross-env: 7.0.3
@@ -863,8 +863,8 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
 
-  /isomorphic-git/1.18.3:
-    resolution: {integrity: sha512-CVTNt0uU5RQ4g626LxqUyShdoeD15uZppKA0tk7iY/PyikCbRG594a7BksU4JZcOC6RsqUkURdIlFyKhAfdbqg==}
+  /isomorphic-git/1.19.0:
+    resolution: {integrity: sha512-OL723KnfgCSMH0zRvCn3FV5eGIb9Xvs0tS2DbIVc6KuyyI2DOHcYe8S4yWiqQ09xuNXEmPiFgsX5KVpEyWNH8g==}
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
